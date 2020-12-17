@@ -1,0 +1,89 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+      "version": "1.0.0",
+      "title": "self-service-store",
+      "description": "Surf Forecast API",
+      "termsOfService": "http://api_url/terms/",
+      "license": {
+        "name": "Apache 2.0",
+        "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+      }
+    },
+    "servers": [
+      {
+        "url": "http://localhost:3000/",
+        "description": "Local server"
+      }
+    ],
+    "paths": {
+        "/": {
+          "get": {
+            "description": "hello world route",
+            "operationId": "none",
+            "parameters": [],
+            "requestBody": {
+              "content": {
+                "application/json": {}
+              },
+              "required": true
+            },
+            "responses": {
+              "200": {
+                "description": "hello world successfully sent",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/HelloWorldSent"
+                    }
+                  }
+                }
+              },
+              "400": {
+                "description": "Invalid parameters",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/Error"
+                    },
+                    "example": {
+                      "message": "Invalid parameters",
+                      "code": "400",
+                      "error": "Bad Request"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+    },
+    "components": {
+        "schemas" : {
+            "HelloWorldSent": {
+                "type": "string",
+                "example": "hello world!"
+            },
+            "Error": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                    "type": "string"
+                    },
+                    "code": {
+                    "type": "number"
+                    },
+                    "error": {
+                    "type": "string"
+                    },
+                    "description": {
+                    "type": "string"
+                    },
+                    "documentation": {
+                    "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}
