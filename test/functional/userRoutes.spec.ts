@@ -1,10 +1,10 @@
-import '../../src/config/dotenv'
+import 'config/dotenv'
 import supertest from 'supertest'
 import faker from 'faker'
 import jwt from 'jsonwebtoken'
-import app from '../../src/app'
-import { connect, disconnect } from '../../src/config/mongo'
-import { UserModel } from '../../src/models/user/userModel'
+import app from 'app'
+import { connect, disconnect } from 'config/mongo'
+import { UserModel } from 'models/user/userModel'
 
 const request = () => supertest(app)
 
