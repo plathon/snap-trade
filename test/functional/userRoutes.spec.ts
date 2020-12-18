@@ -3,16 +3,23 @@ import supertest from 'supertest'
 import faker from 'faker'
 import jwt from 'jsonwebtoken'
 import app from 'app'
-import { connect, disconnect } from 'config/mongo'
-import { UserModel } from 'models/user/userModel'
+import { Postgres } from 'config/typeorm'
+import { MigrationExecutor } from 'typeorm'
 
 const request = () => supertest(app)
 
 describe('testing user routes', () => {
-  beforeAll(async () => await connect())
-  afterAll(async () => await disconnect())
-  beforeEach(async () => {
-    await UserModel.deleteMany({})
+  beforeAll(async () => await Postgres.openConnection())
+  afterAll(async () => await Postgres.closeConnection())
+  beforeEach(async () => (await Postgres.getConnection()).runMigrations())
+  afterEach(async () => {
+    const connection = await Postgres.getConnection()
+    const migrationExecutor = new MigrationExecutor(connection)
+    const migrations = await migrationExecutor.getAllMigrations()
+    const migrationsLength = migrations.length
+    for (let i = 0; i < migrationsLength; i++) {
+      await migrationExecutor.undoLastMigration()
+    }
   })
 
   test('should create a new user. POST -> /users', async () => {
