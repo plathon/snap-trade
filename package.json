@@ -7,6 +7,8 @@
     "build": "tsc --build ./tsconfig.json",
     "start": "node ./dist/app.js",
     "start:dev": "NODE_ENV=development tsnd -r tsconfig-paths/register --transpile-only --respawn --ignore-watch node_modules src/server.ts",
+    "migrate": "ts-node-dev -r tsconfig-paths/register --transpile-only ./src/utils/migrate",
+    "generate:migration": "./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:generate -n $*",
     "test": "NODE_ENV=test jest --runInBand",
     "lint": "eslint './src/**/*ts'"
   },

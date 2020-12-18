@@ -28,6 +28,13 @@ export class Postgres {
   static async getConnection(
     connectionType = ConnectionTypes.default
   ): Promise<Connection> {
+    await Postgres.openConnection(connectionType)
+    return Postgres.connection
+  }
+
+  static async openConnection(
+    connectionType = ConnectionTypes.default
+  ): Promise<void> {
     if (!Postgres.connection) {
       const connection = Postgres.connectionOptions.find(
         conn => conn.name === connectionType
@@ -36,10 +43,9 @@ export class Postgres {
         connection || Postgres.connectionOptions[0]
       )
     }
-    return Postgres.connection
   }
 
-  static closeConnection(): Promise<void> {
-    return Postgres.connection.close()
+  static async closeConnection(): Promise<void> {
+    Postgres.connection.close()
   }
 }
